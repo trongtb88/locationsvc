@@ -1,10 +1,16 @@
 package rest
 
 import (
-	"encoding/json"
-	"io/ioutil"
+	"fmt"
+	"github.com/gorilla/schema"
 	"net/http"
+
+
+	"github.com/trongtb88/locationsvc/src/business/entity"
 )
+
+var decoderMember = schema.NewDecoder()
+
 
 // Find name and address of 1 type of places (restaurants) located within a N kilometer radius  around 1 specific street name
 // @Summary Find name and address of 1 type of places (restaurants) located within a N kilometer radius  around 1 specific street name
@@ -13,8 +19,9 @@ import (
 // @Accept json
 // @Produce json
 // @Security BasicAuth
-// @Param radius query integer 2 "Number of km around "
 // @Param street_name query string " " "Street Name"
+// @Param place_type query string restaurant "Number of km around "
+// @Param radius query integer 2 "Number of km around "
 // @Param page query int false " "
 // @Param limit query int false " "
 // @Success 200 {object} rest.ResponseGetAccounts
@@ -23,52 +30,36 @@ import (
 // @Failure 500 {object} rest.HTTPErrResp
 // @Router /v1/locations/nearby [get]
 func (rst *rest) GetLocationsNearBy(w http.ResponseWriter, r *http.Request) {
-	var param entity.CreateAccountParam
-	body, err := ioutil.ReadAll(r.Body)
+	err := r.ParseForm()
 	if err != nil {
 		rst.httpRespError(w, r, http.StatusBadRequest, entity.ErrorMessage{
-			Code:     "InvalidJsonBodyRequest",
+			Code:    "GetLocationsNearByError",
 			Message: err.Error(),
 		})
 		return
 	}
 
-	if err := json.Unmarshal(body, &param); err != nil {
+	var param entity.LocationNearByParams
+	fmt.Println(r.Form)
+
+	err = decoderMember.Decode(&param, r.Form)
+	if err != nil {
 		rst.httpRespError(w, r, http.StatusBadRequest, entity.ErrorMessage{
-			Code:     "InvalidJsonBodyRequest",
+			Code:    "GetLocationsNearByError",
 			Message: err.Error(),
 		})
 		return
 	}
 
-	accounts, _,  err := rst.uc.Account.GetAccountsByParam(r.Context(), entity.GetAccountParam{
-		Code:  param.Code,
-	})
+	locations, pagination, err := rst.uc.Location.GetLocationsNearBy(r.Context(), param)
 
 	if err != nil {
 		rst.httpRespError(w, r, http.StatusInternalServerError, entity.ErrorMessage{
-			Code:     "CreateAccountError",
+			Code:    "GetLocationsNearByError",
 			Message: err.Error(),
 		})
 		return
 	}
 
-	if len(accounts) > 0 {
-		rst.httpRespError(w, r,http.StatusBadRequest, entity.ErrorMessage{
-			Code:     "DuplicateMerchantCode",
-			Message: "Please choose other merchant code",
-		})
-		return
-	}
-
-	account, err := rst.uc.Account.CreateAccount(r.Context(), param)
-	if err != nil {
-		rst.httpRespError(w, r, http.StatusInternalServerError, entity.ErrorMessage{
-			Code:     "CreateAccountError",
-			Message: err.Error(),
-		})
-		return
-	}
-
-	rst.httpRespSuccess(w, r, http.StatusCreated, account, nil)
+	rst.httpRespSuccess(w, r, http.StatusOK, locations, &pagination)
 }
