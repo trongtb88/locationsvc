@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	"github.com/trongtb88/locationsvc/src/business/entity"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"log"
@@ -24,7 +25,7 @@ func ConnectDB(Dbdriver, DbUser, DbPassword, DbPort, DbHost, DbName string) *gor
 		}
 	}
 
-	//err = db.Debug().AutoMigrate(&entity.Location{}) //database migration
+	err = db.Debug().AutoMigrate(&entity.Place{}) //database migration
 
 	if err != nil {
 		log.Fatal("Error when migration table:", err)

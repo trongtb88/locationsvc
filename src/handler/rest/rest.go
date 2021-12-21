@@ -41,7 +41,6 @@ func (rst *rest) Serve() {
 	})
 
 	rst.mux.HandleFunc("/v1/locations/nearby", middleware.Authenticate(rst.GetLocationsNearBy)).Methods(http.MethodGet)
-
 	rst.mux.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 }
 

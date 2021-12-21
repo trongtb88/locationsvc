@@ -12,6 +12,8 @@ const (
 
 	DefaultLimit = 10
 	DefaultPage = 1
+
+	EN_LANGUAGE = "en"
 )
 
 func FillStatusInStr(status int) string {

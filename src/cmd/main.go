@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
+	"github.com/swaggo/swag/example/basic/docs"
 	"gorm.io/gorm"
 	"log"
 	"net/http"
@@ -90,11 +91,11 @@ func main() {
 
 	router := mux.NewRouter()
 
-	//docs.SwaggerInfo.Title = os.Getenv("Meta_Namespace")
-	//docs.SwaggerInfo.Description = os.Getenv("Meta_Description")
-	//docs.SwaggerInfo.Version = os.Getenv("Meta_Version")
-	//docs.SwaggerInfo.BasePath = os.Getenv("Meta_BasePath")
-	//docs.SwaggerInfo.Host = os.Getenv("Meta_Host")
+	docs.SwaggerInfo.Title = os.Getenv("Meta_Namespace")
+	docs.SwaggerInfo.Description = os.Getenv("Meta_Description")
+	docs.SwaggerInfo.Version = os.Getenv("Meta_Version")
+	docs.SwaggerInfo.BasePath = os.Getenv("Meta_BasePath")
+	docs.SwaggerInfo.Host = os.Getenv("Meta_Host")
 
 	// REST Handler Initialization
 	_ = resthandler.Init(router,  uc)

@@ -1,0 +1,132 @@
+definitions:
+  entity.ErrorMessage:
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    type: object
+  entity.Location:
+    properties:
+      address:
+        type: string
+      name:
+        type: string
+    type: object
+  entity.Meta:
+    properties:
+      error:
+        $ref: '#/definitions/entity.ErrorMessage'
+        type: object
+      path:
+        type: string
+      status:
+        type: string
+      status_code:
+        type: integer
+      timestamp:
+        type: string
+    type: object
+  entity.Pagination:
+    properties:
+      current_page:
+        description: for paginate in mysql
+        type: integer
+      cursor_end:
+        type: string
+      cursor_start:
+        description: can use to pagination from mysql very fast performance
+        type: string
+      has_next_page:
+        description: use to get other page from google APIS
+        type: boolean
+      next_page_token:
+        description: use to get other page from google APIS
+        type: string
+      total_elements:
+        description: for paginate in mysql
+        type: integer
+      total_pages:
+        description: for paginate in mysql
+        type: integer
+    type: object
+  rest.HTTPErrResp:
+    properties:
+      metadata:
+        $ref: '#/definitions/entity.Meta'
+        type: object
+    type: object
+  rest.ResponseGetLocationNearBy:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/entity.Location'
+        type: array
+      metadata:
+        $ref: '#/definitions/entity.Meta'
+        type: object
+      pagination:
+        $ref: '#/definitions/entity.Pagination'
+        type: object
+    type: object
+info:
+  contact: {}
+  license: {}
+paths:
+  /v1/locations/nearby:
+    get:
+      consumes:
+      - application/json
+      description: Find name and address of 1 type of places (restaurants) located
+        within a N kilometer radius  around 1 specific street name
+      parameters:
+      - description: Street Name
+        in: query
+        name: street_name
+        type: string
+      - description: Place Type
+        enum:
+        - res
+        - scheduler
+        in: query
+        name: place_type
+        required: true
+        type: string
+      - description: Radius
+        in: query
+        name: radius
+        required: true
+        type: integer
+      - description: ' '
+        in: query
+        name: page_token
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest.ResponseGetLocationNearBy'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/rest.HTTPErrResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/rest.HTTPErrResp'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rest.HTTPErrResp'
+      security:
+      - BasicAuth: []
+      summary: Find name and address of 1 type of places (restaurants) located within
+        a N kilometer radius  around 1 specific street name
+      tags:
+      - NearByLocations
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"
