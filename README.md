@@ -24,13 +24,19 @@ Location Service In Golang Using Google Places API
     DB_HOST=location-mysql
     DB_NAME=location_db
 ```
-5.  Go to terminal at root of project
+
+6. Change Google Place API key, current my key is invalid
+```
+GOOGLE_API_KEY=xxx    
+```
+
+7.  Go to terminal at root of project
 ```sh
    chmod 755 start.sh
    ./start.sh
 ```
 
-6. If have some logs at console like, server started and worked successfully
+8. If have some logs at console like, server started and worked successfully
 
 ```sh
 location_db_mysql | Version: '5.7.36'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server (GPL)
