@@ -7,7 +7,6 @@ import (
 	"github.com/gorilla/mux"
 	httpSwagger "github.com/swaggo/http-swagger"
 	"github.com/trongtb88/locationsvc/src/business/usecase"
-	"github.com/trongtb88/locationsvc/src/middleware"
 )
 
 // REST rest interface
@@ -40,7 +39,7 @@ func (rst *rest) Serve() {
 		})
 	})
 
-	rst.mux.HandleFunc("/v1/locations/nearby", middleware.Authenticate(rst.GetLocationsNearBy)).Methods(http.MethodGet)
+	rst.mux.HandleFunc("/v1/locations/nearby", rst.GetLocationsNearBy).Methods(http.MethodGet)
 	rst.mux.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 }
 

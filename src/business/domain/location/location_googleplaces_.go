@@ -37,13 +37,16 @@ func (loc *location) GetLocationsNearBy(ctx context.Context, param entity.Locati
 			Lat: latLngLocation.Lat,
 			Lng: latLngLocation.Lng,
 		},
-		Radius:    param.Radius,
+		Radius:    param.Radius * 1000,
 		Language:  common.EN_LANGUAGE,
 		Type: placeType,
 		PageToken: param.PageToken,
 	}
 
 	placesSearchResponse, err := loc.mapClient.NearbySearch(context.Background(), r)
+
+
+
 	if err != nil {
 		log.Printf("Error when search near by %v", err)
 		return locs, pagination, err
@@ -59,7 +62,7 @@ func (loc *location) GetLocationsNearBy(ctx context.Context, param entity.Locati
 			log.Printf("Get address for place_id %s", placeId)
 			addressLoc, err := loc.getAddress(ctx, placeId)
 			if err != nil {
-				log.Printf("Error when get place for place_id %s", placeId)
+				log.Printf("Error when get place for place_id %s %s", placeId, err)
 				placesChannel <- entity.Place{
 					PlaceId: placeId,
 					FormattedAddress: "",

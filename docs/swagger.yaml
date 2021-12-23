@@ -77,22 +77,23 @@ paths:
     get:
       consumes:
       - application/json
-      description: Find name and address of 1 type of places (restaurants) located
+      description: Find name and address of 1 type of place (restaurants) located
         within a N kilometer radius  around 1 specific street name
       parameters:
-      - description: Street Name
+      - description: 'Street Name eg : Sukhumvit, Thailand'
         in: query
         name: street_name
+        required: true
         type: string
       - description: Place Type
         enum:
-        - res
-        - scheduler
+        - restaurant
+        - school
         in: query
         name: place_type
         required: true
         type: string
-      - description: Radius
+      - description: Radius in kilometer
         in: query
         name: radius
         required: true
@@ -120,13 +121,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/rest.HTTPErrResp'
-      security:
-      - BasicAuth: []
-      summary: Find name and address of 1 type of places (restaurants) located within
+      summary: Find name and address of one kine of place (restaurants) located within
         a N kilometer radius  around 1 specific street name
       tags:
       - NearByLocations
-securityDefinitions:
-  BasicAuth:
-    type: basic
 swagger: "2.0"

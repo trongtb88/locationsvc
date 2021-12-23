@@ -27,12 +27,7 @@ var doc = `{
     "paths": {
         "/v1/locations/nearby": {
             "get": {
-                "security": [
-                    {
-                        "BasicAuth": []
-                    }
-                ],
-                "description": "Find name and address of 1 type of places (restaurants) located within a N kilometer radius  around 1 specific street name",
+                "description": "Find name and address of 1 type of place (restaurants) located within a N kilometer radius  around 1 specific street name",
                 "consumes": [
                     "application/json"
                 ],
@@ -42,18 +37,19 @@ var doc = `{
                 "tags": [
                     "NearByLocations"
                 ],
-                "summary": "Find name and address of 1 type of places (restaurants) located within a N kilometer radius  around 1 specific street name",
+                "summary": "Find name and address of one kine of place (restaurants) located within a N kilometer radius  around 1 specific street name",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Street Name",
+                        "description": "Street Name eg : Sukhumvit, Thailand",
                         "name": "street_name",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "enum": [
-                            "res",
-                            "scheduler"
+                            "restaurant",
+                            "school"
                         ],
                         "type": "string",
                         "description": "Place Type",
@@ -63,7 +59,7 @@ var doc = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Radius",
+                        "description": "Radius in kilometer",
                         "name": "radius",
                         "in": "query",
                         "required": true
@@ -207,11 +203,6 @@ var doc = `{
                     "$ref": "#/definitions/entity.Pagination"
                 }
             }
-        }
-    },
-    "securityDefinitions": {
-        "BasicAuth": {
-            "type": "basic"
         }
     }
 }`

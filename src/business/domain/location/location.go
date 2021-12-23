@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// DomainItf domain interface for merchant account
+// DomainItf domain interface for location account
 type DomainItf interface {
 	GetLocationsNearBy(ctx context.Context, param entity.LocationNearByParams) ([]entity.Location, entity.Pagination,error)
 }
