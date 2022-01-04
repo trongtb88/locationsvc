@@ -5,7 +5,7 @@ Location Service In Golang Using Google Places API
 1. Run DOCKER DEAMON at your machine successfully
 2. Make sure don't have any image mysql is running at port 3306, otherwise you will have 1 error
 3. Git clone this repo
-4. Comment all values for localhost like
+4. Go to file .env, comment all values for localhost like
 ```
     #DB_DRIVER=mysql
     #DB_USER=root
@@ -14,7 +14,7 @@ Location Service In Golang Using Google Places API
     #DB_HOST=127.0.0.1 # For running the app without docker
     #DB_NAME=location_db
 ```
-5. UNcomment all values for docker
+5. Go to file .env, uncomment all values for docker
 ```
     #for docker
     DB_DRIVER=mysql
@@ -24,13 +24,19 @@ Location Service In Golang Using Google Places API
     DB_HOST=location-mysql
     DB_NAME=location_db
 ```
-5.  Go to terminal at root of project
+
+6. Go to file .env, change Google Place API key, current my key is invalid
+```
+GOOGLE_MAP_API_KEY=xxx    
+```
+
+7.  Go to terminal at root of project
 ```sh
    chmod 755 start.sh
    ./start.sh
 ```
 
-6. If have some logs at console like, server started and worked successfully
+8. If have some logs at console like, server started and worked successfully
 
 ```sh
 location_db_mysql | Version: '5.7.36'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server (GPL)
