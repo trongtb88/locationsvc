@@ -30,6 +30,6 @@ func TestGetLocationsNearBy(t *testing.T) {
 	if err != nil {
 		log.Printf("Cannot convert to json: %v", err)
 	}
-	assert.Equal(t, rr.Code, http.StatusOK)
-	assert.Equal(t,len(response.Data) > 0, true)
+	assert.Equal(t, http.StatusOK, rr.Code)
+	assert.Equal(t, true, len(response.Data) > 0)
 }
