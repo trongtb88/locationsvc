@@ -1,5 +1,5 @@
 # locationsvc
-Location Service In Golang Using Google Places API
+Location Service In Golang Using Google Places API To Find Near By Locations
 
 ## How to run this service at docker local
 1. Run DOCKER DEAMON at your machine successfully
